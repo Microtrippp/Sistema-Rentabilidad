@@ -365,14 +365,14 @@ vector<double> MetRK4(const FinanzasBase &finanzas, int meses, double tasaCrecim
 void LlenarHistorial(vector<double> &mesesHistoricos, vector<double> &ingresosHistoricos)
 {
     cout << "\n----------------------- Insercion de Datos Historicos -----------------------" << endl;
-    int numMeses = RellenarInt("Ingrese la cantidad de meses a estudiar (2-60): ", 2, 60);
+    int numMeses = RellenarInt("Ingrese la cantidad de meses de estudio (2-60): ", 2, 60);
     mesesHistoricos.reserve(numMeses);
     ingresosHistoricos.reserve(numMeses);
 
     for (int i = 0; i < numMeses; ++i)
     {
-        double mes = RellenarDouble(" Ingrese el mes de estudio: ", 1, 60);
-        double ingreso = RellenarDouble(" Inserte los ingresos obtenidos en el mes: $ ", 1, 1000000);
+        double mes = RellenarDouble(" Ingrese el mes de estudio: ", 0, 60);
+        double ingreso = RellenarDouble(" Inserte los ingresos obtenidos en el mes: $ ", 0, 1000000);
         mesesHistoricos.push_back(mes);
         ingresosHistoricos.push_back(ingreso);
     }
@@ -450,9 +450,14 @@ vector<double> MetMinimosCuadrados(const vector<double> &x, const vector<double>
         double valorProyectado = m * mesFuturo + b;
 
         if (valorProyectado < 0)
+        {
             valorProyectado = 0; // Control de piso financiero
-
-        cout << "  Mes Proyectado " << mesFuturo << ": $ " << valorProyectado << endl;
+            cout << "  Mes Proyectado " << mesFuturo << ": $ " << valorProyectado << " (Alerta: Quiebre de ingresos)" << endl;
+        }
+        else
+        {
+            cout << "  Mes Proyectado " << mesFuturo << ": $ " << valorProyectado << endl;
+        }
         tendecias.push_back(valorProyectado);
     }
 
